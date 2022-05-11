@@ -1,6 +1,6 @@
 {
   "name": "terraform-aws-quicksight-user-cleanup",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
     "@aws-sdk/client-cloudtrail": "^3.85.0",
     "@aws-sdk/client-cloudwatch": "^3.85.0",
