@@ -1,6 +1,6 @@
 # Overview
 
-QuickSight behaves differently than many other AWS services. When you log in to the AWS console, State Farm isn't charged. State Farm is only charged for usage.
+QuickSight behaves differently than many other AWS services. When you log in to the AWS console, you aren't charged. You are only charged for usage.
 
 Not so in the QuickSight console. When you login, you are asked for your e-mail address. Upon submitting, you create yourself as an author. Your account is charged [$24/month](https://aws.amazon.com/quicksight/pricing/) in perpetuity.
 
