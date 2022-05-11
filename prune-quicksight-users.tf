@@ -1,21 +1,4 @@
 locals {
-  // https://techguide.opr.statefarm.org/index.php/AWS_Simple_Email_Service_(SES)#PCAT_Managed_SES
-  ses_arns = {
-    test = {
-      us-east-1 = "arn:aws:ses:us-east-1:761602949203:identity/test.ic1.statefarm",
-      us-west-2 = "arn:aws:ses:us-west-2:761602949203:identity/test.ic1.statefarm"
-    },
-    prod = {
-      us-east-1 = "arn:aws:ses:us-east-1:726697055042:identity/ic1.statefarm",
-      us-west-2 = "arn:aws:ses:us-west-2:726697055042:identity/ic1.statefarm"
-    }
-  }
-
-  from = {
-    test = "no-reply@test.ic1.statefarm",
-    prod = "no-reply@ic1.statefarm"
-  }
-
   prune_quicksight_users_name = "pruneQuickSightUsers"
   lambda_name                 = local.name
 }
@@ -97,7 +80,7 @@ data "aws_iam_policy_document" "quicksight_cleanup" {
 
   statement {
     actions   = ["ses:SendEmail"]
-    resources = [local.ses_arns[local.environment][data.aws_region.current.name]]
+    resources = ["*"] # TODO: Make SES domains
   }
 
   statement {
