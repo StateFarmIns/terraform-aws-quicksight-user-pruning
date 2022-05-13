@@ -34,7 +34,7 @@
     "webpack-cli": "^4.9.2"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && echo '// This file is committed because Terraform needs it to be there. Source code is in src folder' > pruneQuickSightUsers.js && cat dist/pruneQuickSightUsers.js >> pruneQuickSightUsers.js",
     "test": "jest --silent",
     "mutate": "stryker run",
     "lint": "eslint --fix src/*.ts; eslint --fix test/*.test.ts"
