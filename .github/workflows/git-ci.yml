@@ -1,9 +1,6 @@
-name: CI
+name: Pull Request Tests
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -28,3 +25,5 @@ jobs:
         run: |
           yarn test
           yarn mutate
+
+          when done if
