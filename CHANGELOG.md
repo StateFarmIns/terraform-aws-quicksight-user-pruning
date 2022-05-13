@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.1.0...v1.1.1) (2022-05-13)
+
+
+### Bug Fixes
+
+* 🐛 Pull email from email field instead of principalid field ([51e61a8](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/51e61a8a707b8e3b21838ff269e0b58062b72ffc))
+
 # [1.1.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.0.2...v1.1.0) (2022-05-13)
 
 
