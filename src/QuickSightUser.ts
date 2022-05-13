@@ -11,10 +11,10 @@ export class QuickSightUser {
 	invalid: boolean // User is invalid if username is "N/A". See README.md for more details
 
 	constructor(quickSightUser: User) {
-		const [iamRoleId, email] = quickSightUser.PrincipalId.replace('federated/iam/', '').split(':') // Original is federated/iam/ASIAGREHGHTHRTH3XJG12:email@example.com
+		const iamRoleId = quickSightUser.PrincipalId.replace('federated/iam/', '').split(':')[0] // Original is federated/iam/ASIAGREHGHTHRTH3XJG12:email@example.com
 
 		this.arn = quickSightUser.Arn
-		this.email = email
+		this.email = quickSightUser.Email
 		this.iamRoleId = iamRoleId
 		this.role = QuickSightRole[quickSightUser.Role as keyof typeof QuickSightRole] // Only values that will be returned // also the keyof typeof hack came from here https://stackoverflow.com/a/42623905
 		this.username = quickSightUser.UserName
