@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.0.1...v1.0.2) (2022-05-13)
+
+
+### Bug Fixes
+
+* 🐛 Minor fix to the console debug ([747a380](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/747a380f1def1d04f407bfbce88da7eff7df516c))
+
 ## [1.0.1](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.0.0...v1.0.1) (2022-05-13)
 
 
