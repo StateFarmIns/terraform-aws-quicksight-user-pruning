@@ -16,7 +16,7 @@ export class CloudWatchMetricClient {
 		})
 
 		// Stryker disable next-line all "I do not care about mutating console statements"
-		console.debug(`Emitting metrics: ${JSON.stringify(putMetricDataCommand)}`)
+		console.debug(`Emitting metrics: ${JSON.stringify(putMetricDataCommand.input)}`)
 
 		await this.cloudWatchClient.send(putMetricDataCommand)
 
