@@ -16,5 +16,6 @@ data "aws_region" "current" {}
 data "aws_iam_account_alias" "current" {}
 
 locals {
-  name = "${var.prefix}quicksight-user-cleanup${var.suffix}"
+  name                = "${var.prefix}quicksight-user-cleanup${var.suffix}"
+  enable_notification = var.notification_config == null ? false : true
 }

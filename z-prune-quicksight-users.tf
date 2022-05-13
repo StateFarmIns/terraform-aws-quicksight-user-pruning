@@ -42,12 +42,12 @@ resource "aws_lambda_function" "quicksight_cleanup" {
       accountAlias       = data.aws_iam_account_alias.current.account_alias
       deleteDays         = var.delete_days
       notifyDays         = var.notify_days
-      enableNotification = var.notification_config ? true : false
-      contact            = var.notification_config ? var.notification_config.contact : null
-      replyTo            = var.notification_config ? var.notification_config.reply_to : null
-      cc                 = var.notification_config ? jsonencode(var.notification_config.cc) : null
-      from               = var.notification_config ? var.notification_config.from : null
-      sesArn             = var.notification_config ? var.notification_config.ses_domain_identity_arn : null
+      enableNotification = local.enable_notification ? true : false
+      contact            = local.enable_notification ? var.notification_config.contact : null
+      replyTo            = local.enable_notification ? var.notification_config.reply_to : null
+      cc                 = local.enable_notification ? jsonencode(var.notification_config.cc) : null
+      from               = local.enable_notification ? var.notification_config.from : null
+      sesArn             = local.enable_notification ? var.notification_config.ses_domain_identity_arn : null
     }
   }
 }
@@ -87,7 +87,7 @@ data "aws_iam_policy_document" "quicksight_cleanup" {
   }
 
   dynamic "statement" {
-    for_each = var.notification_config ? ["make this block once"] : []
+    for_each = local.enable_notification ? ["make this block once"] : []
 
     content {
       actions   = ["ses:SendEmail"]
