@@ -25,5 +25,3 @@ jobs:
         run: |
           yarn test
           yarn mutate
-
-          when done if
