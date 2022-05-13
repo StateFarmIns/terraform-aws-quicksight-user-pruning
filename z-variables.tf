@@ -13,7 +13,7 @@ variable "suffix" {
 variable "notify_days" {
   default     = 25
   type        = number
-  description = "Days since last access when we should notify users about deletion"
+  description = "Days since last access when we should notify users about deletion. NOTE: Notification is not on by default, see notification_config."
 }
 
 variable "delete_days" {
@@ -22,10 +22,18 @@ variable "delete_days" {
   description = "Days since last access when we should delete the user"
 }
 
-variable "enable_notification" {
-  type        = bool
-  default     = true
-  description = "Whether to enable email notification."
+variable "notification_config" {
+  description = "Provide these values to enable notification. If not provided, notification is disabled."
+
+  type = object({
+    ses_domain_identity_arn = string       # Provide the ARN of the SES domain identity.
+    contact                 = string       # Email address to include in the HTML email notification. Tells users to contact that email for further questions.
+    from                    = string       # Mail FROM address
+    reply_to                = string       # Mail reply-to address
+    cc                      = list(string) # List of email addresses to CC on all notifications
+  })
+
+  default = null
 }
 
 variable "tags" {
@@ -34,35 +42,30 @@ variable "tags" {
   description = "Tags to add to resources (set to empty if you are using default_tags in the AWS provider)"
 }
 
-variable "contact_email" {
-  type        = string
-  description = "E-mail address (can be a DL) to include in the HTML email notification. Tells users to contact that e-mail for further questions."
-}
-
-variable "reply_to" {
-  type        = string
-  description = "Reply-to e-mail address. MUST BE *@statefarm.com"
-}
-
-variable "cc" {
-  type        = list(string)
-  description = "CC e-mail addresses. MUST BE *@statefarm.com"
-}
-
-variable "vpc_id" {
-  default     = null
-  type        = string
-  description = "VPC ID override. If not entered, the module defaults to picking the first VPC in the account."
-}
-
 variable "permissions_boundary_arn" {
   default     = null
   type        = string
-  description = "If you need to attach a permissions boundary to a role (e.g. you are in P&C Claims) then give the ARN of the permissions boundary policy here"
+  description = "If you need to attach a permissions boundary to a role, then give the ARN of the permissions boundary policy here"
 }
 
 variable "cron_expression" {
   default     = "cron(6 6 * * ? *)"
   type        = string
   description = "When to trigger the Lambda. See: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html"
+}
+
+variable "vpc_config" {
+  description = "Provide these values to place the Lambda function in a VPC"
+
+  type = object({
+    security_group_ids = list(string)
+    subnet_ids         = list(string)
+  })
+
+  default = null
+}
+
+variable "kms_key_arn" {
+  description = "If provided, secures the Lambda environment variables with a KMS key"
+  default     = null
 }

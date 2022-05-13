@@ -1,29 +1,39 @@
 locals {
-  prune_quicksight_users_name = "pruneQuickSightUsers"
-  lambda_name                 = local.name
+  prune_quicksight_users_file_name = "pruneQuickSightUsers"
+}
+
+resource "aws_cloudwatch_log_group" "quicksight_cleanup" {
+  name              = "/aws/lambda/${local.name}"
+  retention_in_days = 90
+  tags              = var.tags
 }
 
 data "archive_file" "quicksight_cleanup" {
   type        = "zip"
-  source_file = "${path.module}/${local.prune_quicksight_users_name}.js"
-  output_path = "${path.module}/${local.prune_quicksight_users_name}.zip"
+  source_file = "${path.module}/${local.prune_quicksight_users_file_name}.js"
+  output_path = "${path.module}/${local.prune_quicksight_users_file_name}.zip"
 }
 
 resource "aws_lambda_function" "quicksight_cleanup" {
-  function_name    = local.lambda_name
+  depends_on       = [aws_cloudwatch_log_group.quicksight_cleanup] # Log group must be created before Lambda or we may run into errors
+  function_name    = local.name
   filename         = data.archive_file.quicksight_cleanup.output_path
   source_code_hash = data.archive_file.quicksight_cleanup.output_base64sha256
   runtime          = "nodejs14.x"
-  handler          = "${local.prune_quicksight_users_name}.default"
+  handler          = "${local.prune_quicksight_users_file_name}.default"
   role             = aws_iam_role.quicksight_cleanup.arn
   timeout          = 900
-  memory_size      = 512 # Probably too big, but I want to keep it bigger in case someone's account is massive
-  kms_key_arn      = data.aws_kms_key.master.arn
+  memory_size      = 512       # Probably too big, but I want to keep it bigger in case someone's account is massive
   architectures    = ["arm64"] # Cost savings
+  kms_key_arn      = var.kms_key_arn
 
-  vpc_config {
-    security_group_ids = [data.aws_security_group.base.id]
-    subnet_ids         = data.aws_subnet_ids.subnets.ids
+  dynamic "vpc_config" {
+    for_each = var.vpc_config == null ? [] : ["make this block once"]
+
+    content {
+      security_group_ids = var.vpc_config.security_group_ids
+      subnet_ids         = var.vpc_config.subnet_ids
+    }
   }
 
   environment {
@@ -32,16 +42,14 @@ resource "aws_lambda_function" "quicksight_cleanup" {
       accountAlias       = data.aws_iam_account_alias.current.account_alias
       deleteDays         = var.delete_days
       notifyDays         = var.notify_days
-      enableNotification = var.enable_notification
-      contact            = var.contact_email
-      replyTo            = var.reply_to
-      cc                 = jsonencode(var.cc)
-      from               = local.from[local.environment]
-      sesArn             = local.ses_arns[local.environment][data.aws_region.current.name]
+      enableNotification = var.notification_config ? true : false
+      contact            = var.notification_config ? var.notification_config.contact : null
+      replyTo            = var.notification_config ? var.notification_config.reply_to : null
+      cc                 = var.notification_config ? jsonencode(var.notification_config.cc) : null
+      from               = var.notification_config ? var.notification_config.from : null
+      sesArn             = var.notification_config ? var.notification_config.ses_domain_identity_arn : null
     }
   }
-
-  tags = var.tags
 }
 
 resource "aws_iam_role" "quicksight_cleanup" {
@@ -59,8 +67,8 @@ resource "aws_iam_role" "quicksight_cleanup" {
 
 data "aws_iam_policy_document" "quicksight_cleanup" {
   statement {
-    actions   = ["logs:*"]
-    resources = ["arn:aws:logs:*:*:*"]
+    actions   = ["logs:*"]             # TODO: Shore this up
+    resources = ["arn:aws:logs:*:*:*"] # TODO: Shore this up
   }
 
   statement {
@@ -78,9 +86,13 @@ data "aws_iam_policy_document" "quicksight_cleanup" {
     resources = ["*"]
   }
 
-  statement {
-    actions   = ["ses:SendEmail"]
-    resources = ["*"] # TODO: Make SES domains
+  dynamic "statement" {
+    for_each = var.notification_config ? ["make this block once"] : []
+
+    content {
+      actions   = ["ses:SendEmail"]
+      resources = [var.notification_config.ses_domain_identity_arn]
+    }
   }
 
   statement {
@@ -89,7 +101,7 @@ data "aws_iam_policy_document" "quicksight_cleanup" {
     condition {
       test     = "StringEquals"
       variable = "cloudwatch:namespace"
-      values   = [local.lambda_name]
+      values   = [local.name]
     }
   }
 }
