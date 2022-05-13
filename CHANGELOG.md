@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.0.0...v1.0.1) (2022-05-13)
+
+
+### Bug Fixes
+
+* 🐛 Fix Terraform for bad null check ([516ea95](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/516ea95c5a97bcdfc2d9727bb5ac4b95d3fa7496))
+
 # 1.0.0 (2022-05-13)
 
 
