@@ -32,7 +32,7 @@ export default async () => {
 	}
 
 	// Stryker disable next-line all "I do not care about mutating console statements"
-	console.debug(`QuickSight Users: \n${JSON.stringify(quickSightUsers)}`)
+	console.debug(`QuickSight Users:\n${JSON.stringify(quickSightUsers, null, 2)}`)
 	cloudWatchMetricClient.queueMetric({ MetricName: 'PriorQuickSightUsersCount', Value: quickSightUsers.length })
 
 	let invalidUsers = 0
