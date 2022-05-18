@@ -67,8 +67,15 @@ resource "aws_iam_role" "quicksight_cleanup" {
 
 data "aws_iam_policy_document" "quicksight_cleanup" {
   statement {
-    actions   = ["logs:*"]             # TODO: Shore this up
-    resources = ["arn:aws:logs:*:*:*"] # TODO: Shore this up
+    sid       = "LogStreamCreation"
+    actions   = ["logs:CreateLogStream"]
+    resources = [aws_cloudwatch_log_group.quicksight_cleanup.arn]
+  }
+
+  statement {
+    sid       = "PutLogs"
+    actions   = ["logs:PutLogEvents"]
+    resources = ["${aws_cloudwatch_log_group.quicksight_cleanup.arn}:log-stream:*"]
   }
 
   statement {
