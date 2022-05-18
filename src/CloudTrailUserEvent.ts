@@ -1,16 +1,18 @@
 import { Event } from '@aws-sdk/client-cloudtrail'
 
 export class CloudTrailUserEvent {
-	iamRoleId: string // ASIAGREHGHTHRTH3XJG12
-	email: string
+	// arn:aws:sts::account:assumed-role/ROLE_NAME/SESSION_NAME
+	iamRole: string 
+	stsSession: string 
 	eventTime: Date
 
 	constructor(event: Event) {
 		const cloudTrailEvent = JSON.parse(event.CloudTrailEvent)
-		const [iamRoleId, email] = cloudTrailEvent.userIdentity.principalId.split(':')
-
-		this.iamRoleId = iamRoleId
-		this.email = email
+		// TODO: What about IAM user logins?
+		const [role, session] =  cloudTrailEvent.userIdentity.arn.split('/').slice(1) // arn:aws:sts::account:assumed-role/ROLE_NAME/SESSION_NAME
+		
+		this.iamRole = role
+		this.stsSession = session
 		this.eventTime = event.EventTime
 	}
 }

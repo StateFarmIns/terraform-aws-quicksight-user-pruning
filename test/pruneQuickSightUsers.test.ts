@@ -68,35 +68,35 @@ const sampleCloudTrailEvents: CloudTrailUserEvent[] = [
 	new CloudTrailUserEvent({
 		Username: johnSmith.email,
 		CloudTrailEvent: JSON.stringify({
-			userIdentity: { principalId: `${johnSmith.iamRoleId}:${johnSmith.email}` },
+			userIdentity: { arn: `arn:aws:sts::1234567890:assumed-role/${johnSmith.username}` },
 		}),
 		EventTime: johnSmithLatestDate,
 	}),
 	new CloudTrailUserEvent({
 		Username: johnSmith.email,
 		CloudTrailEvent: JSON.stringify({
-			userIdentity: { principalId: `${johnSmith.iamRoleId}:${johnSmith.email}` },
+			userIdentity: { arn: `arn:aws:sts::1234567890:assumed-role/${johnSmith.username}` },
 		}),
 		EventTime: johnSmithLatestDateClone,
 	}),
 	new CloudTrailUserEvent({
 		Username: hannahBanana.email,
 		CloudTrailEvent: JSON.stringify({
-			userIdentity: { principalId: `${hannahBanana.iamRoleId}:${hannahBanana.email}` },
+			userIdentity: { arn: `arn:aws:sts::1234567890:assumed-role/${hannahBanana.username}` },
 		}),
 		EventTime: hannahBananaOlderDate,
 	}),
 	new CloudTrailUserEvent({
 		Username: johnSmith.email,
 		CloudTrailEvent: JSON.stringify({
-			userIdentity: { principalId: `${johnSmith.iamRoleId}:${johnSmith.email}` },
+			userIdentity: { arn: `arn:aws:sts::1234567890:assumed-role/${johnSmith.username}` },
 		}),
 		EventTime: johnSmithOlderDate,
 	}),
 	new CloudTrailUserEvent({
 		Username: hannahBanana.email,
 		CloudTrailEvent: JSON.stringify({
-			userIdentity: { principalId: `${hannahBanana.iamRoleId}:${hannahBanana.email}` },
+			userIdentity: { arn: `arn:aws:sts::1234567890:assumed-role/${hannahBanana.username}` },
 		}),
 		EventTime: hannahBananaLatestDate,
 	}),
@@ -153,8 +153,8 @@ describe('pruneQuickSightUsers', () => {
 
 		stubs.CloudTrailUserEventManager.retrieveQuickSightUserEvents.resolves([
 			{
-				email: sillyBilly.email, 
-				iamRoleId: sillyBilly.iamRoleId,
+				stsSession: sillyBilly.stsSession,
+				iamRole: sillyBilly.iamRole,
 				eventTime: notifyDate,
 			},
 		])
@@ -199,7 +199,7 @@ describe('pruneQuickSightUsers', () => {
 			Arn: 'arn:aws:quicksight:us-east-1:1234567890:user/default/quicksight-reader/silly.billy@example.com',
 			Email: 'silly.billy@example.com',
 			PrincipalId: 'federated/iam/ARIAGERHIGWFEHQOFIH:silly.billy@example.com',
-			UserName: 'silly.billy@example.com',
+			UserName: 'quicksight-reader/silly.billy@example.com',
 			Role: 'READER',
 		})]
 
@@ -207,8 +207,8 @@ describe('pruneQuickSightUsers', () => {
 		exactDeletionDate.setDate(exactDeletionDate.getDate() - 30)
 		const cloudTrailEvents: CloudTrailUserEvent[] = [
 			{
-				email: 'silly.billy@example.com',
-				iamRoleId: 'ARIAGERHIGWFEHQOFIH',
+				iamRole: 'quicksight-reader',
+				stsSession: 'silly.billy@example.com',
 				eventTime: exactDeletionDate,
 			},
 		]

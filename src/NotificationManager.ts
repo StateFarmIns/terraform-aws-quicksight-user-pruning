@@ -28,7 +28,7 @@ export class NotificationManager {
     
     Account Number: ${process.env.awsAccountId}<br />
     Account Alias: ${process.env.accountAlias}<br />
-    Assumed Role: ${user.iamRoleName}<br />
+    Assumed Role: ${user.iamRole}<br />
     Email: ${user.email}<br /><br />
   
     For further assistance, contact <a href="mailto:${process.env.contact}">${process.env.contact}</a>. Thank you and have a fantastically fun-filled day 🥳.

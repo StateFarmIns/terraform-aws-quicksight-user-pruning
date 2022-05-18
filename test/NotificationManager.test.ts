@@ -21,10 +21,10 @@ const sesClientMock = mockClient(SESClient)
 const validQuickSightUser: QuickSightUser = {
 	arn: 'arn:aws:quicksight:us-east-1:1234567890:user/default/quicksight-admin-role/john.smith@example.com',
 	email: 'john.smith@example.com',
-	iamRoleId: 'AROAGJH281WEGFSJ38',
 	role: QuickSightRole.ADMIN,
 	username: 'quicksight-admin-role/john.smith@example.com',
-	iamRoleName: 'quicksight-admin-role',
+	iamRole: 'quicksight-admin-role',
+	stsSession: 'john.smith@example.com',
 	invalid: false,
 	lastAccess: new Date('2022-05-09T01:02:03'),
 }

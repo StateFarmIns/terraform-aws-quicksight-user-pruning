@@ -17,10 +17,10 @@ describe('QuickSightUser', () => {
 QuickSightUser {
   "arn": "arn:aws:quicksight:us-east-1:1234567890:user/default/quicksight-admin-role/john.smith@example.com",
   "email": "john.smith@example.com",
-  "iamRoleId": "ARIAGRGHRGGERHQWOJ",
-  "iamRoleName": "quicksight-admin-role",
+  "iamRole": "quicksight-admin-role",
   "invalid": false,
   "role": "ADMIN",
+  "stsSession": "john.smith@example.com",
   "username": "quicksight-admin-role/john.smith@example.com",
 }
 `)
@@ -33,10 +33,10 @@ QuickSightUser {
 QuickSightUser {
   "arn": "arn:aws:quicksight:us-east-1:1234567890:user/default/quicksight-admin-role/john.smith@example.com",
   "email": "john.smith@example.com",
-  "iamRoleId": "ARIAGRGHRGGERHQWOJ",
-  "iamRoleName": "N",
+  "iamRole": "N",
   "invalid": true,
   "role": "ADMIN",
+  "stsSession": "A",
   "username": "N/A",
 }
 `)

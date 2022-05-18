@@ -27,20 +27,14 @@ export class CloudTrailUserEventManager {
 
 			nextToken = lookupEventsResult.NextToken
 
-			// Filter out users who do not have an @ sign in the name, this limiting events to only
-			// those that were user-initiated (e-mail address)
-			const filteredEvents = lookupEventsResult.Events.filter((event) => event.Username.includes('@'))
-
-			for (const event of filteredEvents) {
-				events.push(new CloudTrailUserEvent(event))
-			}
+			lookupEventsResult.Events.forEach((event) => events.push(new CloudTrailUserEvent(event)))
 		} while (nextToken)
 
 		return events
 	}
 
 	public getLastAccessDate(user: QuickSightUser, events: CloudTrailUserEvent[]): Date {
-		const thisParticularUserEvents = events.filter((event) => event.email === user.email && event.iamRoleId === user.iamRoleId)
+		const thisParticularUserEvents = events.filter((event) => user.iamRole === event.iamRole && user.stsSession === event.stsSession)
 
 		if (thisParticularUserEvents.length === 0) {
 			return new Date(0) // Return 1970 as last access date to make logic easier down the road
