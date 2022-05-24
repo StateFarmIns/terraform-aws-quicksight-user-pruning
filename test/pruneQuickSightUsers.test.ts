@@ -145,6 +145,32 @@ describe('pruneQuickSightUsers', () => {
 		sinon.assert.calledWith(stubs.CloudWatchMetricClient.queueMetric.getCalls()[4], { MetricName: 'RemainingQuickSightUsersCount', Value: validQuickSightUsers.length - 1 })
 	})
 
+	it('works with IAM users', async () => {
+		const sampleUser = new QuickSightUser({
+			Active: true,
+			Arn: 'arn:aws:quicksight:us-east-1:1234567890:user/default/sample-user',
+			Email: 'silly.billy@example.com',
+			PrincipalId: 'federated/iam/ARIAGERHIGWFEHQOFIH',
+			UserName: 'sample-user',
+			Role: 'ADMIN',
+		})
+
+		stubs.QuickSightUserManager.retrieveUsers.resolves([sampleUser])
+
+		stubs.CloudTrailUserEventManager.retrieveQuickSightUserEvents.resolves([
+			{
+				stsSession: undefined,
+				iamRole: 'sample-user',
+				eventTime: new Date(),
+			},
+		])
+
+		await pruneQuickSightUsers()
+
+		sinon.assert.notCalled(stubs.NotificationManager.notifyUser) // If not called, it means the 2 events matched
+		sinon.assert.notCalled(stubs.QuickSightUserManager.deleteUser) // If not called, it means the 2 events matched
+	})
+
 	it('does not notify readers', async () => {
 		stubs.QuickSightUserManager.retrieveUsers.resolves(validQuickSightUsers)
 

@@ -17,5 +17,24 @@ CloudTrailUserEvent {
 }
 `)
 		})
+
+		it('gets an event with no stsSession', () => { // Logging in as an AWS user
+			const noSessionEvent: Event = {
+				CloudTrailEvent: JSON.stringify({ userIdentity: { arn: 'arn:aws:iam::1234567890:user/my-role' } }),
+				EventTime: new Date('2022-01-02T03:04:05Z'),
+			}
+
+			const cloudTrailUserEvent = new CloudTrailUserEvent(noSessionEvent)
+
+			expect(cloudTrailUserEvent.stsSession).toBeUndefined()
+
+			expect(cloudTrailUserEvent).toMatchInlineSnapshot(`
+CloudTrailUserEvent {
+  "eventTime": 2022-01-02T03:04:05.000Z,
+  "iamRole": "my-role",
+  "stsSession": undefined,
+}
+`)
+		})
 	})
 })

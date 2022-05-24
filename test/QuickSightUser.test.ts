@@ -41,5 +41,23 @@ QuickSightUser {
 }
 `)
 		})
+
+		it('gets a user with no stsSession (aka an IAM user)', () => {
+			const user = new QuickSightUser({ ...validUser, Arn: 'arn:aws:quicksight:us-east-1:1234567890:user/default/sample-iam-user', UserName: 'sample-iam-user' })
+
+			expect(user.stsSession).toBeUndefined()
+
+			expect(user).toMatchInlineSnapshot(`
+QuickSightUser {
+  "arn": "arn:aws:quicksight:us-east-1:1234567890:user/default/sample-iam-user",
+  "email": "john.smith@example.com",
+  "iamRole": "sample-iam-user",
+  "invalid": false,
+  "role": "ADMIN",
+  "stsSession": undefined,
+  "username": "sample-iam-user",
+}
+`)
+		})
 	})
 })
