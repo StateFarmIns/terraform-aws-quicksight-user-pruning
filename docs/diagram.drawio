@@ -1,0 +1,63 @@
+<mxfile host="65bd71144e">
+    <diagram id="sl8W-vV4jA5wp6af1fbQ" name="Page-1">
+        <mxGraphModel dx="1940" dy="573" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-2" value="Your Account's VPC" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;strokeColor=#248814;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#AAB7B8;dashed=0;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="240" width="300" height="580" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-1" value="Amazon QuickSight" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.quicksight;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="270" width="80" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-5" value="(1) Look up users&lt;br&gt;(4) delete users at deletion date" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="8jlTazhaCxbNy6awoGAL-4" target="8jlTazhaCxbNy6awoGAL-1" edge="1">
+                    <mxGeometry x="-0.0175" y="20" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="600" y="340"/>
+                            <mxPoint x="600" y="340"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-10" value="(2) Look up actions" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="8jlTazhaCxbNy6awoGAL-4" target="8jlTazhaCxbNy6awoGAL-9" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="540" y="405"/>
+                            <mxPoint x="540" y="405"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-13" value="(3) Notify users if at notification date" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="8jlTazhaCxbNy6awoGAL-4" target="8jlTazhaCxbNy6awoGAL-11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-4" value="&amp;lt;prefix&amp;gt;prune-quicksight-users&amp;lt;suffix&amp;gt;" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.lambda;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="330" width="80" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="8jlTazhaCxbNy6awoGAL-6" target="8jlTazhaCxbNy6awoGAL-4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-6" value="Daily Timer" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;align=center;perimeter=ellipsePerimeter;outlineConnect=0;outline=standard;symbol=timer;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="365" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-7" value="Amazon CloudWatch" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.cloudwatch;" parent="1" vertex="1">
+                    <mxGeometry x="-30" y="345" width="80" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-9" value="AWS&#10;CloudTrail" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.cloudtrail;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="395" width="80" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-15" value="Send Email" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="8jlTazhaCxbNy6awoGAL-11" target="8jlTazhaCxbNy6awoGAL-14" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-11" value="Amazon Simple Email Service" style="outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.simple_email_service;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="640" width="80" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-14" value="Users" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="665" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8jlTazhaCxbNy6awoGAL-16" value="The script uses a combination of user listings from QuickSight and QuickSight actions found in CloudTrail for the specified deletion period to determine whether users are active, should be notified, or should be deleted, as appropriate." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBackgroundColor=#9999FF;" parent="1" vertex="1">
+                    <mxGeometry x="170" y="160" width="420" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
