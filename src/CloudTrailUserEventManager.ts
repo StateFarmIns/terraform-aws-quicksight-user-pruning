@@ -37,10 +37,16 @@ export class CloudTrailUserEventManager {
 		const thisParticularUserEvents = events.filter((event) => user.iamRole === event.iamRole && user.stsSession === event.stsSession)
 
 		if (thisParticularUserEvents.length === 0) {
+			// Stryker disable next-line all "I do not care about mutating console statements"
+			console.debug(`${user.iamRole}/${user.stsSession} no CloudTrail events found`)
 			return new Date(0) // Return 1970 as last access date to make logic easier down the road
 		}
 
 		// Sort newest to oldest
-		return thisParticularUserEvents.sort((a, b) => a.eventTime <= b.eventTime ? 1 : -1)[0].eventTime
+		const newestEvent = thisParticularUserEvents.sort((a, b) => a.eventTime <= b.eventTime ? 1 : -1)[0]
+		// Stryker disable next-line all "I do not care about mutating console statements"
+		console.debug(`${user.iamRole}/${user.stsSession} latest event: ${JSON.stringify(newestEvent, null, 1)}`)
+
+		return newestEvent.eventTime
 	}
 }
