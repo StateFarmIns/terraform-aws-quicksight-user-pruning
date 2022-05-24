@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.1.1...v2.0.0) (2022-05-18)
+
+
+### Features
+
+* 🎸 Major refactor to rely on different fields ([db78435](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/db784355b46cf432ab8e14dd4ad4d1b2717750f5))
+* 🎸 Tighten up IAM permissions for Lambda ([1352af2](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/1352af2e6227b2aec2c4628c66938253068afddd))
+
+
+### BREAKING CHANGES
+
+* 🧨 Field match changes
+
 ## [1.1.1](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.1.0...v1.1.1) (2022-05-13)
 
 
