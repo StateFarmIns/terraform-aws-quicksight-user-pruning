@@ -10,7 +10,6 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
 resource "aws_cloudwatch_event_rule" "daily" {
   name                = local.name
   description         = "Daily execution of ${local.name} Lambda"
-  tags                = var.tags
   schedule_expression = var.cron_expression
 }
 

@@ -5,7 +5,6 @@ locals {
 resource "aws_cloudwatch_log_group" "quicksight_cleanup" {
   name              = "/aws/lambda/${local.name}"
   retention_in_days = 90
-  tags              = var.tags
 }
 
 data "archive_file" "quicksight_cleanup" {
@@ -61,8 +60,6 @@ resource "aws_iam_role" "quicksight_cleanup" {
     name   = local.name
     policy = data.aws_iam_policy_document.quicksight_cleanup.json
   }
-
-  tags = var.tags
 }
 
 data "aws_iam_policy_document" "quicksight_cleanup" {

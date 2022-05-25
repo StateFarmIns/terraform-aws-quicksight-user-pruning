@@ -36,12 +36,6 @@ variable "notification_config" {
   default = null
 }
 
-variable "tags" {
-  type        = map(string)
-  default     = null
-  description = "Tags to add to resources (set to empty if you are using default_tags in the AWS provider)"
-}
-
 variable "permissions_boundary_arn" {
   default     = null
   type        = string
@@ -63,6 +57,12 @@ variable "vpc_config" {
   })
 
   default = null
+}
+
+variable "monitoring_alert_email_addresses" {
+  description = "If provided, enables monitoring alert e-mails. Highly recommended in order to monitor the health of this module."
+  type        = list(string)
+  default     = []
 }
 
 variable "kms_key_arn" {

@@ -29,129 +29,54 @@ After deploying this module, you will have a Lambda that runs daily (or on a sch
 
 ## Usage Example
 
+#### Enable Alarms and Email Users
 ```hcl
-provider "aws" {
-  default_tags {
-    tags = {
-      contact      = "EMAIL"
-      cost-id      = "COMPONENT"
-      workgroup    = "WORKGROUP"
-      product-name = "PRODUCT_NAME"
-      repo         = "YOUR_REPO"
-    }
-  }
-}
-
 module "quicksight-user-pruning" {
-    # Either source from Terraform Registry, or source from the github repo directly
-    # source = "git::https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning.git?ref=<FIND LATEST REPO TAG>"
-    # or use below 2 lines
+  # Either source from Terraform Registry, or source from the github repo directly
+  # source = "git::https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning.git?ref=<FIND LATEST REPO TAG>"
+  # or use below 2 lines
 
   source  = "StateFarmIns/quicksight-user-pruning/aws"
   version = "<FIND LATEST REPO TAG>"
 
-  contact_email = "YOUR_DL"
-  cc            = ["SOMEONE@youremail.com", "SOMEONE_ELSE@youremail.com"]
-  reply_to      = "SOMEONE@youremail.com"
+  # Enable email alarms for administrative users. Alerts for poor health of this module.
+  monitoring_alert_email_addresses = ["admin1@example.com", "admin2@example.com"]
+
+  # Optional block to enable email notification to users who will be deleted
+  notification_config {
+    ses_domain_identity_arn = "...arn..."
+    contact                 = "my.contact.email@example.com"
+    from                    = "from@example.com"
+    reply_to                = "reply_to@example.com"
+    cc                      = ["first_user_cc@example.com", "second_user_cc@example.com"]
+  }
+}
+```
+
+#### Bare Minimum - No alarms, no emails
+```hcl
+module "quicksight-user-pruning" {
+  # Either source from Terraform Registry, or source from the github repo directly
+  # source = "git::https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning.git?ref=<FIND LATEST REPO TAG>"
+  # or use below 2 lines
+
+  source  = "StateFarmIns/quicksight-user-pruning/aws"
+  version = "<FIND LATEST REPO TAG>"
 }
 ```
 
 ## Monitoring
 
-The module does not create any CloudWatch Alarms to alert you of issues. You must do this on your own.
+If the variable `monitoring_alert_email_addresses` is passed in, the module will create an SNS topic, subscribe those email addresses, and send alarms through the topic. You must confirm the subscription in your email to begin receiving alerts.
 
-The example below creates the following alarms:
+Alarms are created for the following situations:
 
-- Errors > 0 (5 minute interval)
-- Invocations < 1 for a period of 24 hours
-- Throttles > 0 (5 minute interval)
-- Invalid Users > 0 (5 minute interval)
+* >0 Lambda errors
+* >0 Lambda throttles (i.e. account capacity is exceeded)
+* 0 Lambda invocations over 24 hours
+* >0 Invalid users found. These are users whose username is `N/A`. There is a known defect in QuickSight whereby this can occur from time to time. In this case, you must delete these users manually.
 
-```hcl
-locals {
-  team_emails = ["my.email@youremail.com", "your.email@youremail.com"]
-}
-
-resource "aws_sns_topic" "team_alerts" {
-  name = "<YOUR TEAM NAME>-team-alerts"
-  tags = { cloudwatch_alarm = "encryption_disabled" }
-}
-
-resource "null_resource" "subscribe_team_alerts" {
-  count = length(local.team_emails)
-  provisioner "local-exec" {
-    command = "aws sns subscribe --topic-arn ${aws_sns_topic.team_alerts.arn} --protocol email --notification-endpoint ${local.team_emails[count.index]} --region ${local.region}"
-  }
-}
-
-resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_errors" {
-  alarm_name          = "${module.pruneQuickSightUsers.lambda_name}-errors"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "Errors"
-  namespace           = "AWS/Lambda"
-  period              = "300"
-  statistic           = "Sum"
-  threshold           = 0
-  alarm_description   = "Errors occurred invoking the lambda."
-  treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.team_alerts.arn]
-
-  dimensions = {
-    FunctionName = module.pruneQuickSightUsers.lambda_name
-  }
-}
-
-resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_throttles" {
-  alarm_name          = "${module.pruneQuickSightUsers.lambda_name}-throttles"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "Throttles"
-  namespace           = "AWS/Lambda"
-  period              = "300"
-  statistic           = "Maximum"
-  threshold           = 0
-  alarm_description   = "The Lambda has been throttled."
-  treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.team_alerts.arn]
-
-  dimensions = {
-    FunctionName = module.pruneQuickSightUsers.lambda_name
-  }
-}
-
-resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_no_invocations" {
-  alarm_name          = "${module.pruneQuickSightUsers.lambda_name}-no-invocations"
-  comparison_operator = "LessThanThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "Invocations"
-  namespace           = "AWS/Lambda"
-  period              = (60 * 60 * 24) # 24 hours
-  statistic           = "Maximum"
-  threshold           = 1
-  alarm_description   = "The Lambda has not been invoked in the last 24 hours."
-  treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.team_alerts.arn]
-
-  dimensions = {
-    FunctionName = module.pruneQuickSightUsers.lambda_name
-  }
-}
-
-resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_invalid_users" {
-  alarm_name          = "${module.pruneQuickSightUsers.lambda_name}-invalid-users"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "InvalidUsersCount"
-  namespace           = module.pruneQuickSightUsers.lambda_name
-  period              = "300"
-  statistic           = "Sum"
-  threshold           = 0
-  alarm_description   = "Invalid users with N/A usernames are present in the account. These users will need to be deleted manually."
-  treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.team_alerts.arn]
-}
-```
+Details can be found in `z-monitoring.tf`.
 
 ## Sample Dashboard
 
