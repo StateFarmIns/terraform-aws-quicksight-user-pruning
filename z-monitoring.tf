@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_sns_topic" "alerts" {
-  count = var.create_alarms ? 1 : 0
+  count = local.create_alarms ? 1 : 0
   name  = "${local.name}-alerting"
 }
 
@@ -15,7 +15,7 @@ resource "aws_sns_topic_subscription" "alerts" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_errors" {
-  count               = var.create_alarms ? 1 : 0
+  count               = local.create_alarms ? 1 : 0
   alarm_name          = "${local.name}-errors"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
@@ -26,7 +26,7 @@ resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_errors" {
   threshold           = 0
   alarm_description   = "Errors occurred invoking the lambda."
   treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.alerts.arn]
+  alarm_actions       = [aws_sns_topic.alerts[0].arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.quicksight_cleanup.function_name
@@ -44,7 +44,7 @@ resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_throttles" {
   threshold           = 0
   alarm_description   = "The Lambda has been throttled."
   treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.alerts.arn]
+  alarm_actions       = [aws_sns_topic.alerts[0].arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.quicksight_cleanup.function_name
@@ -62,7 +62,7 @@ resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_no_invocations" {
   threshold           = 1
   alarm_description   = "The Lambda has not been invoked in the last 24 hours."
   treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.alerts.arn]
+  alarm_actions       = [aws_sns_topic.alerts[0].arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.quicksight_cleanup.function_name
@@ -80,5 +80,5 @@ resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_invalid_users" {
   threshold           = 0
   alarm_description   = "Invalid users with N/A usernames are present in the account. It is a known AWS issue that these users cannot be removed via the API. Check CloudWatch Logs for the Lambda to see the invalid users, and delete them manually in the QuickSight UI."
   treat_missing_data  = "notBreaching"
-  alarm_actions       = [aws_sns_topic.alerts.arn]
+  alarm_actions       = [aws_sns_topic.alerts[0].arn]
 }
