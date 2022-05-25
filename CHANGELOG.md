@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.0.0...v2.1.0) (2022-05-24)
+
+
+### Features
+
+* 🎸 Add debug statement for CloudTrail searching ([2d7dafa](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/2d7dafa2eb77487c565ea9fdaee62ac46f6a4296))
+
 # [2.0.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v1.1.1...v2.0.0) (2022-05-18)
 
 
