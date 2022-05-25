@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.1.0...v2.2.0) (2022-05-25)
+
+
+### Bug Fixes
+
+* 🐛 Fix Terraform code ([99d0330](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/99d03303bd2e1faf363b15285c1226172bed9bab))
+
+
+### Features
+
+* 🎸 Alarms can now be created ([464a8c7](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/464a8c7ae18daec44046619e94918767184b09c2))
+
 # [2.1.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.0.0...v2.1.0) (2022-05-24)
 
 
