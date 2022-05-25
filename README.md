@@ -19,7 +19,7 @@ After deploying this module, you will have a Lambda that runs daily (or on a sch
 # Prerequisites
 
 1. QuickSight should be enabled in the AWS account. This module provides cost-savings benefits to QuickSight and is not useful if you don't have QuickSight enabled in your account.
-1. Your account must not be in sandbox mode for SES (Simple Email Service). [Learn how to identify and remove sandbox mode here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html)
+1. (If emails are enabled) Your account must not be in sandbox mode for SES (Simple Email Service). [Learn how to identify and remove sandbox mode here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html)
 
 # Diagram
 
