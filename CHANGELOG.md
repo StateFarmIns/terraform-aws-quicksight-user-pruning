@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.2.1...v2.2.2) (2022-05-27)
+
+
+### Bug Fixes
+
+* 🐛 Forgot to put count on the alarms ([9599904](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/9599904d200399bb252235c92b69486a04ff79b1))
+
 ## [2.2.1](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.2.0...v2.2.1) (2022-05-27)
 
 
