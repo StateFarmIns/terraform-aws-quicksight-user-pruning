@@ -7,7 +7,7 @@ export class NotificationManager {
 
 	public async notifyUser(user: QuickSightUser) {
 		// Stryker disable next-line all "I do not care about mutating console statements"
-		console.debug(`Notifying ${JSON.stringify(user)}`)
+		console.debug(`Notifying ${JSON.stringify(user, null, 1)}`)
 		
 		// If the date is 1970, we didn't find any activity for the user
 		const lastAccess =
