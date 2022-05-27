@@ -16,9 +16,10 @@ data "archive_file" "quicksight_cleanup" {
 resource "aws_lambda_function" "quicksight_cleanup" {
   depends_on       = [aws_cloudwatch_log_group.quicksight_cleanup] # Log group must be created before Lambda or we may run into errors
   function_name    = local.name
+  description      = "Runs daily (by default) to prune inactive users from QuickSight, saving you money."
   filename         = data.archive_file.quicksight_cleanup.output_path
   source_code_hash = data.archive_file.quicksight_cleanup.output_base64sha256
-  runtime          = "nodejs14.x"
+  runtime          = "nodejs16.x"
   handler          = "${local.prune_quicksight_users_file_name}.default"
   role             = aws_iam_role.quicksight_cleanup.arn
   timeout          = 900
