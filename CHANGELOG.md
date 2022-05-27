@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.3.0...v2.3.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* 🐛 Set required AWS provider version ([87ddc9d](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/87ddc9d71e742cbd0555da298cacdf7527e8528f))
+
 # [2.3.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.2.2...v2.3.0) (2022-05-27)
 
 
