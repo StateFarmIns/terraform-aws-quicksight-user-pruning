@@ -34,6 +34,7 @@ resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_errors" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_throttles" {
+  count               = local.create_alarms ? 1 : 0
   alarm_name          = "${local.name}-throttles"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
@@ -52,6 +53,7 @@ resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_throttles" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_no_invocations" {
+  count               = local.create_alarms ? 1 : 0
   alarm_name          = "${local.name}-no-invocations"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = "1"
@@ -70,6 +72,7 @@ resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_no_invocations" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "pruneQuickSightUsers_invalid_users" {
+  count               = local.create_alarms ? 1 : 0
   alarm_name          = "${local.name}-invalid-users"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
