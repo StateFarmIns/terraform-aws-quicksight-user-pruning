@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.2.0...v2.2.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* 🐛 Make emails a set ([8021226](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/8021226498c51f801eb7c00668620d3028a8a094))
+
 # [2.2.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.1.0...v2.2.0) (2022-05-25)
 
 
