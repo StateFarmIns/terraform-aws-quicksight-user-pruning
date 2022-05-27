@@ -1,3 +1,11 @@
+# [2.3.0](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.2.2...v2.3.0) (2022-05-27)
+
+
+### Features
+
+* 🎸 change the sysout ([e522b7a](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/e522b7a46defd43250154135d95d6ac1dfb0e012))
+* 🎸 New description on the lambda, also upgrade runtime ([688244c](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/commit/688244c1e4638047864cde7ddc848c1ac1667efc))
+
 ## [2.2.2](https://github.com/StateFarmIns/terraform-aws-quicksight-user-pruning/compare/v2.2.1...v2.2.2) (2022-05-27)
 
 
