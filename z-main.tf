@@ -3,6 +3,7 @@ terraform {
   required_providers {
     archive = {
       source = "hashicorp/archive"
+      version = ">= 4.15.0" # 4.15.0 introduced NodeJS 16.x
     }
 
     aws = {
