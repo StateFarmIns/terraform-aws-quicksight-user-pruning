@@ -71,10 +71,10 @@ If the variable `monitoring_alert_email_addresses` is passed in, the module will
 
 Alarms are created for the following situations:
 
-* >0 Lambda errors
-* >0 Lambda throttles (i.e. account capacity is exceeded)
+* \>0 Lambda errors
+* \>0 Lambda throttles (i.e. account capacity is exceeded)
 * 0 Lambda invocations over 24 hours
-* >0 Invalid users found. These are users whose username is `N/A`. There is a known defect in QuickSight whereby this can occur from time to time. In this case, you must delete these users manually.
+* \>0 Invalid users found. These are users whose username is `N/A`. There is a known defect in QuickSight whereby this can occur from time to time. In this case, you must delete these users manually.
 
 Details can be found in `z-monitoring.tf`.
 
