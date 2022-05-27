@@ -8,7 +8,7 @@ resource "aws_sns_topic" "alerts" {
 }
 
 resource "aws_sns_topic_subscription" "alerts" {
-  for_each  = var.monitoring_alert_email_addresses
+  for_each  = toset(var.monitoring_alert_email_addresses)
   topic_arn = aws_sns_topic.alerts[0].arn
   protocol  = "email"
   endpoint  = each.value
