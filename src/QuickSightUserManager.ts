@@ -24,7 +24,7 @@ export class QuickSightUserManager {
 
 	public async deleteUser(user: QuickSightUser) {
 		// Stryker disable next-line all "I do not care about mutating console statements"
-		console.debug(`Deleting ${JSON.stringify(user)}`)
+		console.debug(`Deleting ${JSON.stringify(user, null, 1)}`)
 		
 		const deleteUserCommand = new DeleteUserCommand({
 			AwsAccountId: this.awsAccountId,
